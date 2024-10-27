@@ -1,0 +1,359 @@
+[
+  {
+    "state": "Alabama",
+    "MostPopularFastFoodTopRatedChain": "Daylight Donuts",
+    "MostPopularFastFoodBestIconicChain": "Milo's",
+    "MostPopularFastFoodFavoriteBreakfast": "Chick-Fil-A",
+    "MostPopularFastFoodMostSearchedFor": "1. Dominos \n2. Chick-Fil-A \n3. Pizza Hut"
+  },
+  {
+    "state": "Alaska",
+    "MostPopularFastFoodTopRatedChain": "Papa Murphy's Take 'N' Bake Pizza",
+    "MostPopularFastFoodBestIconicChain": "Arctic Roadrunner",
+    "MostPopularFastFoodFavoriteBreakfast": "N/A",
+    "MostPopularFastFoodMostSearchedFor": "1. McDonald's \n2. Dominos \n3. Taco Bell"
+  },
+  {
+    "state": "Arizona",
+    "MostPopularFastFoodTopRatedChain": "LaMar's Donuts & Coffee",
+    "MostPopularFastFoodBestIconicChain": "Eegee's",
+    "MostPopularFastFoodFavoriteBreakfast": "McDonald's",
+    "MostPopularFastFoodMostSearchedFor": "1. McDonald's \n2. Starbucks \n3. Chick-Fil-A"
+  },
+  {
+    "state": "Arkansas",
+    "MostPopularFastFoodTopRatedChain": "Chick-Fil-A",
+    "MostPopularFastFoodBestIconicChain": "Slim Chickens",
+    "MostPopularFastFoodFavoriteBreakfast": "McDonald's",
+    "MostPopularFastFoodMostSearchedFor": "1. Dominos \n2. Dominos (again)\n3. McDonald's"
+  },
+  {
+    "state": "California",
+    "MostPopularFastFoodTopRatedChain": "In-N-Out",
+    "MostPopularFastFoodBestIconicChain": "In-N-Out",
+    "MostPopularFastFoodFavoriteBreakfast": "McDonald's",
+    "MostPopularFastFoodMostSearchedFor": "1. Starbucks \n2. McDonald's \n3. Chick-Fil-A"
+  },
+  {
+    "state": "Colorado",
+    "MostPopularFastFoodTopRatedChain": "LaMar's Donuts & Coffee",
+    "MostPopularFastFoodBestIconicChain": "Good Times",
+    "MostPopularFastFoodFavoriteBreakfast": "Chick-Fil-A",
+    "MostPopularFastFoodMostSearchedFor": "1. Starbucks \n2. McDonald's \n3. Dominos"
+  },
+  {
+    "state": "Connecticut",
+    "MostPopularFastFoodTopRatedChain": "Chick-Fil-A",
+    "MostPopularFastFoodBestIconicChain": "Ted's Restaurant",
+    "MostPopularFastFoodFavoriteBreakfast": "McDonald's",
+    "MostPopularFastFoodMostSearchedFor": "1. McDonald's \n2. Starbucks \n3. Dominos"
+  },
+  {
+    "state": "Delaware",
+    "MostPopularFastFoodTopRatedChain": "Chick-Fil-A",
+    "MostPopularFastFoodBestIconicChain": "Capriotti's",
+    "MostPopularFastFoodFavoriteBreakfast": "Chick-Fil-A",
+    "MostPopularFastFoodMostSearchedFor": "1. Chick-Fil-A \n2. Dominos \n3. McDonald's"
+  },
+  {
+    "state": "District of Columbia",
+    "MostPopularFastFoodTopRatedChain": null,
+    "MostPopularFastFoodBestIconicChain": null,
+    "MostPopularFastFoodFavoriteBreakfast": "Chick-Fil-A",
+    "MostPopularFastFoodMostSearchedFor": "1. Starbucks \n2. McDonald's \n3. Chick-Fil-A"
+  },
+  {
+    "state": "Florida",
+    "MostPopularFastFoodTopRatedChain": "Chick-Fil-A",
+    "MostPopularFastFoodBestIconicChain": "PDQ",
+    "MostPopularFastFoodFavoriteBreakfast": "Chick-Fil-A",
+    "MostPopularFastFoodMostSearchedFor": "1. McDonald's \n2. Chick-Fil-A \n3. Starbucks"
+  },
+  {
+    "state": "Georgia",
+    "MostPopularFastFoodTopRatedChain": "Daylight Donuts",
+    "MostPopularFastFoodBestIconicChain": "Waffle House",
+    "MostPopularFastFoodFavoriteBreakfast": "Chick-Fil-A",
+    "MostPopularFastFoodMostSearchedFor": "1. Chick-Fil-A \n2. McDonald's \n3. Dominos"
+  },
+  {
+    "state": "Hawaii",
+    "MostPopularFastFoodTopRatedChain": "Raisinig Cane's Chicken Fingers",
+    "MostPopularFastFoodBestIconicChain": "Zippy's",
+    "MostPopularFastFoodFavoriteBreakfast": "McDonald's",
+    "MostPopularFastFoodMostSearchedFor": "1. McDonald's \n2. Starbucks \n3. Pizza Hut"
+  },
+  {
+    "state": "Idaho",
+    "MostPopularFastFoodTopRatedChain": "Chick-Fil-A",
+    "MostPopularFastFoodBestIconicChain": "Westside Drive-In",
+    "MostPopularFastFoodFavoriteBreakfast": "McDonald's",
+    "MostPopularFastFoodMostSearchedFor": "1. Dominos \n2. McDonald's \n3. Pizza Hut"
+  },
+  {
+    "state": "Illinois",
+    "MostPopularFastFoodTopRatedChain": "Papa Murphy's Take 'N' Bake Pizza",
+    "MostPopularFastFoodBestIconicChain": "Portillo's",
+    "MostPopularFastFoodFavoriteBreakfast": "McDonald's",
+    "MostPopularFastFoodMostSearchedFor": "1. McDonald's \n2. Starbucks \n3. Dominos"
+  },
+  {
+    "state": "Indiana",
+    "MostPopularFastFoodTopRatedChain": "Chick-Fil-A",
+    "MostPopularFastFoodBestIconicChain": "Schoop's Hamburgers",
+    "MostPopularFastFoodFavoriteBreakfast": "McDonald's",
+    "MostPopularFastFoodMostSearchedFor": "1. McDonald's \n2. Pizza Hut \n3. Papa John's"
+  },
+  {
+    "state": "Iowa",
+    "MostPopularFastFoodTopRatedChain": "Chick-Fil-A",
+    "MostPopularFastFoodBestIconicChain": "Maid-Rite",
+    "MostPopularFastFoodFavoriteBreakfast": "Burger King",
+    "MostPopularFastFoodMostSearchedFor": "1. McDonald's \n2. Pizza Hut \n3. Dominos"
+  },
+  {
+    "state": "Kansas",
+    "MostPopularFastFoodTopRatedChain": "Chick-Fil-A",
+    "MostPopularFastFoodBestIconicChain": "Spangles",
+    "MostPopularFastFoodFavoriteBreakfast": "McDonald's",
+    "MostPopularFastFoodMostSearchedFor": "1. Pizza Hut \n2. McDonald's \n3. Starbucks"
+  },
+  {
+    "state": "Kentucky",
+    "MostPopularFastFoodTopRatedChain": "Chick-Fil-A",
+    "MostPopularFastFoodBestIconicChain": "Fazoli's",
+    "MostPopularFastFoodFavoriteBreakfast": "Burger King",
+    "MostPopularFastFoodMostSearchedFor": "1. Papa Johns \n2. McDonald's \n3. Dominos"
+  },
+  {
+    "state": "Louisiana",
+    "MostPopularFastFoodTopRatedChain": "Chick-Fil-A",
+    "MostPopularFastFoodBestIconicChain": "Raising Cane's",
+    "MostPopularFastFoodFavoriteBreakfast": "McDonald's",
+    "MostPopularFastFoodMostSearchedFor": "1. Dominos \n2. Pizza Hut \n3. McDonald's"
+  },
+  {
+    "state": "Maine",
+    "MostPopularFastFoodTopRatedChain": "Chick-Fil-A",
+    "MostPopularFastFoodBestIconicChain": "Gifford's",
+    "MostPopularFastFoodFavoriteBreakfast": "McDonald's",
+    "MostPopularFastFoodMostSearchedFor": "1. Dominos \n2. McDonald's \n3. Starbucks"
+  },
+  {
+    "state": "Maryland",
+    "MostPopularFastFoodTopRatedChain": "Chick-Fil-A",
+    "MostPopularFastFoodBestIconicChain": "Chaps Pit Beef",
+    "MostPopularFastFoodFavoriteBreakfast": "Chick-Fil-A",
+    "MostPopularFastFoodMostSearchedFor": "1. McDonald's \n2. Chick-Fil-A \n3. Dominos"
+  },
+  {
+    "state": "Massachusetts",
+    "MostPopularFastFoodTopRatedChain": "Chick-Fil-A",
+    "MostPopularFastFoodBestIconicChain": "Dunkin'",
+    "MostPopularFastFoodFavoriteBreakfast": "McDonald's",
+    "MostPopularFastFoodMostSearchedFor": "1. McDonald's \n2. Starbucks \n3. Dominos"
+  },
+  {
+    "state": "Michigan",
+    "MostPopularFastFoodTopRatedChain": "Chick-Fil-A",
+    "MostPopularFastFoodBestIconicChain": "National Coney Island",
+    "MostPopularFastFoodFavoriteBreakfast": "McDonald's",
+    "MostPopularFastFoodMostSearchedFor": "1. McDonald's \n2. Little Caesars \n3. Taco Bell"
+  },
+  {
+    "state": "Minnesota",
+    "MostPopularFastFoodTopRatedChain": "Chick-Fil-A",
+    "MostPopularFastFoodBestIconicChain": "MyBurger",
+    "MostPopularFastFoodFavoriteBreakfast": "McDonald's",
+    "MostPopularFastFoodMostSearchedFor": "1. McDonald's \n2. Dominos \n3. Starbucks"
+  },
+  {
+    "state": "Mississippi",
+    "MostPopularFastFoodTopRatedChain": "Chick-Fil-A",
+    "MostPopularFastFoodBestIconicChain": "Ward's",
+    "MostPopularFastFoodFavoriteBreakfast": "Burger King",
+    "MostPopularFastFoodMostSearchedFor": "1. Dominos \n2. Dominos \n3. McDonalds"
+  },
+  {
+    "state": "Missouri",
+    "MostPopularFastFoodTopRatedChain": "LaMar's Donuts & Coffee",
+    "MostPopularFastFoodBestIconicChain": "Lion's Choice",
+    "MostPopularFastFoodFavoriteBreakfast": "Wendy's",
+    "MostPopularFastFoodMostSearchedFor": "1. Dominos \n2. McDonald's \n3. Pizza Hut"
+  },
+  {
+    "state": "Montana",
+    "MostPopularFastFoodTopRatedChain": "Chick-Fil-A",
+    "MostPopularFastFoodBestIconicChain": "HuHot Mongolian Grill",
+    "MostPopularFastFoodFavoriteBreakfast": "Taco Bell",
+    "MostPopularFastFoodMostSearchedFor": "1. Dominos \n2. Pizza Hut \n3. McDonald's"
+  },
+  {
+    "state": "Nebraska",
+    "MostPopularFastFoodTopRatedChain": "LaMar's Donuts & Coffee",
+    "MostPopularFastFoodBestIconicChain": "Don & Millie's",
+    "MostPopularFastFoodFavoriteBreakfast": "Chick-Fil-A",
+    "MostPopularFastFoodMostSearchedFor": "1. McDonald's \n2. Pizza Hut \n3. Dominos"
+  },
+  {
+    "state": "Nevada",
+    "MostPopularFastFoodTopRatedChain": "In-N-Out",
+    "MostPopularFastFoodBestIconicChain": "Port of Subs",
+    "MostPopularFastFoodFavoriteBreakfast": "McDonald's",
+    "MostPopularFastFoodMostSearchedFor": "1. Starbucks \n2. McDonald's \n3. Dominos"
+  },
+  {
+    "state": "New Hampshire",
+    "MostPopularFastFoodTopRatedChain": "Chick-Fil-A",
+    "MostPopularFastFoodBestIconicChain": "Moe's Italian Sandwiches",
+    "MostPopularFastFoodFavoriteBreakfast": "McDonald's",
+    "MostPopularFastFoodMostSearchedFor": "1. Dominos \n2. McDonalds \n3. Starbucks"
+  },
+  {
+    "state": "New Jersey",
+    "MostPopularFastFoodTopRatedChain": "Chick-Fil-A",
+    "MostPopularFastFoodBestIconicChain": "Jersey Mike's",
+    "MostPopularFastFoodFavoriteBreakfast": "McDonald's",
+    "MostPopularFastFoodMostSearchedFor": "1. McDonald's \n2. Starbucks \n3. Dominos"
+  },
+  {
+    "state": "New Mexico",
+    "MostPopularFastFoodTopRatedChain": "Chick-Fil-A",
+    "MostPopularFastFoodBestIconicChain": "Blake's Lotaburger",
+    "MostPopularFastFoodFavoriteBreakfast": "McDonald's",
+    "MostPopularFastFoodMostSearchedFor": "1. Dominos \n2. McDonald's \n3. Starbucks"
+  },
+  {
+    "state": "New York",
+    "MostPopularFastFoodTopRatedChain": "Chick-Fil-A",
+    "MostPopularFastFoodBestIconicChain": "Shake Shack",
+    "MostPopularFastFoodFavoriteBreakfast": "McDonald's",
+    "MostPopularFastFoodMostSearchedFor": "1. Starbucks \n2. McDonald's \n3. Dominos"
+  },
+  {
+    "state": "North Carolina",
+    "MostPopularFastFoodTopRatedChain": "Raisinig Cane's Chicken Fingers",
+    "MostPopularFastFoodBestIconicChain": "Cook Out",
+    "MostPopularFastFoodFavoriteBreakfast": "Chick-Fil-A",
+    "MostPopularFastFoodMostSearchedFor": "1. Chick-Fil-A \n2. Dominos \n3. McDonald's"
+  },
+  {
+    "state": "North Dakota",
+    "MostPopularFastFoodTopRatedChain": "Chick-Fil-A",
+    "MostPopularFastFoodBestIconicChain": "Burger Time",
+    "MostPopularFastFoodFavoriteBreakfast": "McDonald's",
+    "MostPopularFastFoodMostSearchedFor": "1. McDonald's \n2. Dominos \n3. Papa John's"
+  },
+  {
+    "state": "Ohio",
+    "MostPopularFastFoodTopRatedChain": "Chick-Fil-A",
+    "MostPopularFastFoodBestIconicChain": "Gold Star Chili",
+    "MostPopularFastFoodFavoriteBreakfast": "McDonald's",
+    "MostPopularFastFoodMostSearchedFor": "1. McDonald's \n2. Dominos \n3. Chipotle"
+  },
+  {
+    "state": "Oklahoma",
+    "MostPopularFastFoodTopRatedChain": "Chick-Fil-A",
+    "MostPopularFastFoodBestIconicChain": "Braum's",
+    "MostPopularFastFoodFavoriteBreakfast": "Chick-Fil-A",
+    "MostPopularFastFoodMostSearchedFor": "1. McDonald's \n2. Dominos \n3. Pizza Hut"
+  },
+  {
+    "state": "Oregon",
+    "MostPopularFastFoodTopRatedChain": "Chick-Fil-A",
+    "MostPopularFastFoodBestIconicChain": "Burgerville",
+    "MostPopularFastFoodFavoriteBreakfast": "McDonald's",
+    "MostPopularFastFoodMostSearchedFor": "1. McDonald's \n2. Starbucks \n3. Dominos"
+  },
+  {
+    "state": "Pennsylvania",
+    "MostPopularFastFoodTopRatedChain": "Krispy Kreme Doughnuts",
+    "MostPopularFastFoodBestIconicChain": "Wawa",
+    "MostPopularFastFoodFavoriteBreakfast": "McDonald's",
+    "MostPopularFastFoodMostSearchedFor": "1. McDonald's \n2. Chick-Fil-A \n3. Dominos"
+  },
+  {
+    "state": "Rhode Island",
+    "MostPopularFastFoodTopRatedChain": "Chick-Fil-A",
+    "MostPopularFastFoodBestIconicChain": "Del's",
+    "MostPopularFastFoodFavoriteBreakfast": "McDonald's",
+    "MostPopularFastFoodMostSearchedFor": "1. Dominos \n2. McDonald's \n3. Starbucks"
+  },
+  {
+    "state": "South Carolina",
+    "MostPopularFastFoodTopRatedChain": "Chick-Fil-A",
+    "MostPopularFastFoodBestIconicChain": "Rush's",
+    "MostPopularFastFoodFavoriteBreakfast": "Chick-Fil-A",
+    "MostPopularFastFoodMostSearchedFor": "1. Chick-Fil-A \n2. McDonald's \n3. Dominos"
+  },
+  {
+    "state": "South Dakota",
+    "MostPopularFastFoodTopRatedChain": "Papa Murphy's Take 'N' Bake Pizza",
+    "MostPopularFastFoodBestIconicChain": "Nick's Hamburger Shop",
+    "MostPopularFastFoodFavoriteBreakfast": "McDonald's",
+    "MostPopularFastFoodMostSearchedFor": "1. McDonald's \n2. Dominos \n3. Pizza Hut"
+  },
+  {
+    "state": "Tennessee",
+    "MostPopularFastFoodTopRatedChain": "Shipley Do-nuts",
+    "MostPopularFastFoodBestIconicChain": "Pal's Sudden Service",
+    "MostPopularFastFoodFavoriteBreakfast": "Chick-Fil-A",
+    "MostPopularFastFoodMostSearchedFor": "1. Chick-Fil-A \n2. Dominos \n3. McDonald's"
+  },
+  {
+    "state": "Texas",
+    "MostPopularFastFoodTopRatedChain": "Chick-Fil-A",
+    "MostPopularFastFoodBestIconicChain": "Whataburger",
+    "MostPopularFastFoodFavoriteBreakfast": "Chick-Fil-A",
+    "MostPopularFastFoodMostSearchedFor": "1. Chick-Fil-A \n2. McDonald's \n3. McDonald's"
+  },
+  {
+    "state": "Utah",
+    "MostPopularFastFoodTopRatedChain": "Chick-Fil-A",
+    "MostPopularFastFoodBestIconicChain": "Arctic Circle",
+    "MostPopularFastFoodFavoriteBreakfast": "McDonald's",
+    "MostPopularFastFoodMostSearchedFor": "1. McDonald's \n2. Dominos \n3. Chick-Fil-A"
+  },
+  {
+    "state": "Vermont",
+    "MostPopularFastFoodTopRatedChain": "Five Guys",
+    "MostPopularFastFoodBestIconicChain": "Al's French Frys",
+    "MostPopularFastFoodFavoriteBreakfast": "McDonald's",
+    "MostPopularFastFoodMostSearchedFor": "1. Dominos \n2. McDonald's \n3. Starbucks"
+  },
+  {
+    "state": "Virginia",
+    "MostPopularFastFoodTopRatedChain": "Chick-Fil-A",
+    "MostPopularFastFoodBestIconicChain": "Five Guys",
+    "MostPopularFastFoodFavoriteBreakfast": "McDonald's",
+    "MostPopularFastFoodMostSearchedFor": "1. Chick-Fil-A \n2. McDonald's \n3. Starbucks"
+  },
+  {
+    "state": "Washington",
+    "MostPopularFastFoodTopRatedChain": "Chick-Fil-A",
+    "MostPopularFastFoodBestIconicChain": "Taco Time Northwest",
+    "MostPopularFastFoodFavoriteBreakfast": "Chick-Fil-A",
+    "MostPopularFastFoodMostSearchedFor": "1. Starbucks \n2. McDonald's \n3. Dominos"
+  },
+  {
+    "state": "West Virginia",
+    "MostPopularFastFoodTopRatedChain": "Chick-Fil-A",
+    "MostPopularFastFoodBestIconicChain": "Tudor's Biscuit World",
+    "MostPopularFastFoodFavoriteBreakfast": "McDonald's",
+    "MostPopularFastFoodMostSearchedFor": "1. Dominos \n2. Dominos \n3. Pizza Hut"
+  },
+  {
+    "state": "Wisconsin",
+    "MostPopularFastFoodTopRatedChain": "Chick-Fil-A",
+    "MostPopularFastFoodBestIconicChain": "Culver's",
+    "MostPopularFastFoodFavoriteBreakfast": "McDonald's",
+    "MostPopularFastFoodMostSearchedFor": "1. McDonald's \n2. Dominos \n3. Pizza Hut"
+  },
+  {
+    "state": "Wyoming",
+    "MostPopularFastFoodTopRatedChain": "Chick-Fil-A",
+    "MostPopularFastFoodBestIconicChain": "Taco John's",
+    "MostPopularFastFoodFavoriteBreakfast": "McDonald's",
+    "MostPopularFastFoodMostSearchedFor": "1. Dominos \n2. Pizza Hut \n3. McDonald's"
+  }
+]

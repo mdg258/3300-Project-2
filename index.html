@@ -31,9 +31,9 @@
     svg.call(zoom);
 
     // Load and render map with error handling
-    d3.json("us.json")
+    d3.json("datasets/us.json")
         .then(us => {
-            console.log("File loaded successfully:", us);  // Check if data loads
+            console.log("File loaded successfully:", us);
 
             const states = topojson.feature(us, us.objects.states);
             const projection = d3.geoAlbersUsa().fitSize([width, height], states);
@@ -50,8 +50,7 @@
                 .on("mouseout", function() { d3.select(this).attr("class", "state"); });
         })
         .catch(error => {
-            console.error("Error loading or processing the file:", error);  // Log errors
-            alert("Failed to load map data. Please check the file path or data format.");
+            console.error("Error loading or processing the file:", error);
         });
 </script>
 

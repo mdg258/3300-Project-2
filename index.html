@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <title>Interactive Choropleth Map</title>
@@ -25,6 +26,7 @@
     .highlight {
       fill: #ADD8E6;
     }
+
     .tooltip {
       pointer-events: none;
       font-size: 12px;
@@ -116,6 +118,7 @@
 
   </style>
 </head>
+
 <body>
   <h1>America’s Fast Food Landscape: Popular Picks and Health Trends</h1>
   <div style="display: flex; align-items: flex-start;">
@@ -123,6 +126,7 @@
     <div style="width: 900px;">
       <svg id="map" width="900" height="600"></svg>
     </div>
+<<<<<<< HEAD
   
     <!-- Legend Container -->
     <div class="legend-container" style="margin-left: 20px;">
@@ -146,6 +150,13 @@
           </li>
         </ul>
       </div>
+=======
+
+    <!-- Logo Container to the Right of the Map -->
+    <div id="logo-container"
+      style="width: 150px; margin-left: 20px; display: flex; align-items: center; justify-content: center;">
+      <img id="fast-food-logo" src="" alt="Fast Food Logo" style="display: none; width: 100px; height: 100px;">
+>>>>>>> 61189e5d021878f265b56e4a98dea16b9f198955
     </div>
   </div>
 
@@ -153,7 +164,7 @@
     const svg = d3.select("#map");
     const width = svg.attr("width");
     const height = svg.attr("height");
-    
+
     // Define color scale for density
     const colorScale = d3.scaleQuantize()
       .domain([0, 100])  // Adjust based on density range
@@ -174,7 +185,7 @@
       "53": "Washington", "54": "West Virginia", "55": "Wisconsin", "56": "Wyoming"
     };
 
-    const loadData = async function() {
+    const loadData = async function () {
       const us = await d3.json("datasets/us.json");  // Load the TopoJSON file
       const states = topojson.feature(us, us.objects.states);  // Extract state features
       const projection = d3.geoAlbersUsa().fitSize([width, height], states);
@@ -183,64 +194,64 @@
       let mergedData = [];
 
       Promise.all([
-      d3.csv("datasets/fast_food.csv"),
-      d3.csv("datasets/obesity_race.csv"),
-      d3.csv("datasets/obesity_sex.csv")
-    ]).then(([foodData, raceData, sexData]) => {
+        d3.csv("datasets/fast_food.csv"),
+        d3.csv("datasets/obesity_race.csv"),
+        d3.csv("datasets/obesity_sex.csv")
+      ]).then(([foodData, raceData, sexData]) => {
 
-      foodData.forEach(d => {
-        d.ranking = d.MostPopularFastFoodMostSearchedFor;
-        const [first, second, third] = d.MostPopularFastFoodMostSearchedFor.replace(/\\n/g, "\n")
-          .split("\n").map(item => item.trim())
-          .map(item => item.replace(/^\d+\.\s*/, ''));
-        d.first = first;
-        d.second = second;
-        d.third = third;
-        delete d.MostPopularFastFoodMostSearchedFor;
-        delete d.MostPopularFastFoodBestIconicChain;
-        delete d.MostPopularFastFoodFavoriteBreakfast;
-        delete d.MostPopularFastFoodTopRatedChain;
+        foodData.forEach(d => {
+          d.ranking = d.MostPopularFastFoodMostSearchedFor;
+          const [first, second, third] = d.MostPopularFastFoodMostSearchedFor.replace(/\\n/g, "\n")
+            .split("\n").map(item => item.trim())
+            .map(item => item.replace(/^\d+\.\s*/, ''));
+          d.first = first;
+          d.second = second;
+          d.third = third;
+          delete d.MostPopularFastFoodMostSearchedFor;
+          delete d.MostPopularFastFoodBestIconicChain;
+          delete d.MostPopularFastFoodFavoriteBreakfast;
+          delete d.MostPopularFastFoodTopRatedChain;
+        });
+
+        // Process each dataset into a map for easier lookup by state
+        const foodMap = {};
+        foodData.forEach(d => {
+          foodMap[d.state] = d;
+        });
+
+        const raceMap = {};
+        raceData.forEach(d => {
+          raceMap[d.state] = d;
+        });
+
+        const sexMap = {};
+        sexData.forEach(d => {
+          sexMap[d.state] = d;
+        });
+
+        // Merge datasets based on the "state" key
+        Object.keys(foodMap).forEach(state => {
+          const mergedEntry = {
+            state: state.padStart(2, '0'),
+            ...foodMap[state],
+            ...raceMap[state],
+            ...sexMap[state]
+          };
+          mergedData.push(mergedEntry);
+        });
+
+        console.log(mergedData); // To verify the merged data structure
       });
-
-      // Process each dataset into a map for easier lookup by state
-      const foodMap = {};
-      foodData.forEach(d => {
-        foodMap[d.state] = d;
-      });
-
-      const raceMap = {};
-      raceData.forEach(d => {
-        raceMap[d.state] = d;
-      });
-
-      const sexMap = {};
-      sexData.forEach(d => {
-        sexMap[d.state] = d;
-      });
-
-      // Merge datasets based on the "state" key
-      Object.keys(foodMap).forEach(state => {
-        const mergedEntry = {
-          state: state.padStart(2, '0'),
-          ...foodMap[state],
-          ...raceMap[state],
-          ...sexMap[state]
-        };
-        mergedData.push(mergedEntry);
-      });
-
-      console.log(mergedData); // To verify the merged data structure
-    });
 
       // Append the state paths first
       svg.append("g")
-         .selectAll("path")
-         .data(states.features)
-         .join("path")
-         .attr("class", "state")
-         .attr("d", path)
-         .attr("fill", d => colorScale(d.properties.density || 0))
-         .on("mouseover", function(event, d) {
+        .selectAll("path")
+        .data(states.features)
+        .join("path")
+        .attr("class", "state")
+        .attr("d", path)
+        .attr("fill", d => colorScale(d.properties.density || 0))
+        .on("mouseover", function (event, d) {
           d3.select(this).attr("class", "highlight");
           const stateID = d.id.toString().padStart(2, '0');  // Format ID with leading zero if needed
 
@@ -262,7 +273,7 @@
           // Position tooltip at the state's centroid
           let [x, y] = path.centroid(d);
           const transform = d3.zoomTransform(svg.node());
-          
+
           // Adjust tooltip position to stay within the SVG boundaries
           const tooltipWidth = 180;  // Match tooltip rect width
           const tooltipHeight = 50;  // Match tooltip rect height
@@ -284,12 +295,22 @@
           }
 
           tooltip.style("visibility", "visible")
-                .attr("transform", `translate(${x},${y})`);
+            .attr("transform", `translate(${x},${y})`);
 
           tooltipText.text(stateName);
+<<<<<<< HEAD
           tooltipSubText.text(`Top Fast Food: ${topFastFood[0]}`);
+=======
+          tooltipSubText.text(`Top Fast Food: ${topFastFood}`);
+
+          // Update the logo image
+          const logoImg = document.getElementById("fast-food-logo");
+          logoImg.src = `logos/${topFastFood.toLowerCase().replace(/'/g, '').replace(/ /g, '_')}_logo.png`;
+          logoImg.style.display = "block";
+
+>>>>>>> 61189e5d021878f265b56e4a98dea16b9f198955
         })
-        .on("mousemove", function(event, d) {
+        .on("mousemove", function (event, d) {
           // Calculate the position with dynamic adjustments
           let [x, y] = path.centroid(d);
           const transform = d3.zoomTransform(svg.node());
@@ -314,65 +335,69 @@
 
           tooltip.attr("transform", `translate(${x},${y})`);
         })
-         .on("mouseout", function() {
-           tooltip.style("visibility", "hidden");
-           d3.select(this).attr("class", "state");
+        .on("mouseout", function () {
+          tooltip.style("visibility", "hidden");
+          d3.select(this).attr("class", "state");
 
+<<<<<<< HEAD
           document.querySelector(".state-name").textContent = "Select a State";
           document.querySelectorAll(".restaurant-name")[0].innerText = " ";
           document.querySelectorAll(".restaurant-name")[1].innerText = " ";
           document.querySelectorAll(".restaurant-name")[2].innerText = " ";
 
          });
+=======
+          // Hide the logo on mouse out
+          document.getElementById("fast-food-logo").style.display = "none";
+        });
+>>>>>>> 61189e5d021878f265b56e4a98dea16b9f198955
 
       // Append the tooltip last to bring it to the front
       const tooltip = svg.append("g")
-                   .attr("class", "tooltip")
-                   .style("visibility", "hidden");
+        .attr("class", "tooltip")
+        .style("visibility", "hidden");
 
       tooltip.append("rect")
-            .attr("width", 180)  // Increased width for better spacing
-            .attr("height", 50)  // Increased height to accommodate two lines of text
-            .attr("fill", "black")
-            .attr("rx", 4)
-            .attr("ry", 4)
-            .attr("x", -90)      // Centered the tooltip rectangle horizontally
-            .attr("y", -40)      // Adjusted vertical position
-            .attr("opacity", 0.8);
+        .attr("width", 180)  // Increased width for better spacing
+        .attr("height", 50)  // Increased height to accommodate two lines of text
+        .attr("fill", "black")
+        .attr("rx", 4)
+        .attr("ry", 4)
+        .attr("x", -90)      // Centered the tooltip rectangle horizontally
+        .attr("y", -40)      // Adjusted vertical position
+        .attr("opacity", 0.8);
 
       const tooltipText = tooltip.append("text")
-                                .attr("x", 0)
-                                .attr("y", -20)  // Position the state name higher
-                                .attr("text-anchor", "middle")
-                                .attr("fill", "white")
-                                .attr("font-size", "14px")  // Larger font size for the state name
-                                .attr("font-weight", "bold");  // Bold font for the state name
+        .attr("x", 0)
+        .attr("y", -20)  // Position the state name higher
+        .attr("text-anchor", "middle")
+        .attr("fill", "white")
+        .attr("font-size", "14px")  // Larger font size for the state name
+        .attr("font-weight", "bold");  // Bold font for the state name
 
       const tooltipSubText = tooltip.append("text")
-                                    .attr("x", 0)
-                                    .attr("y", 0)  // Position the fast food name lower for padding
-                                    .attr("text-anchor", "middle")
-                                    .attr("fill", "white")
-                                    .attr("font-size", "12px");
+        .attr("x", 0)
+        .attr("y", 0)  // Position the fast food name lower for padding
+        .attr("text-anchor", "middle")
+        .attr("fill", "white")
+        .attr("font-size", "12px");
 
       const tooltipImage = tooltip.append("image")  // Image element for the logo
-                                    .attr("x", -15)    // Position the image
-                                    .attr("y", 10)
-                                    .attr("width", 30)
-                                    .attr("height", 30)
-                                    .style("visibility", "hidden");
+        .attr("x", -15)    // Position the image
+        .attr("y", 10)
+        .attr("width", 30)
+        .attr("height", 30)
+        .style("visibility", "hidden");
 
-    // Set up zoom and pan
-    const zoom = d3.zoom()
-      .scaleExtent([1, 8])
-      .on("zoom", (event) => svg.selectAll("g").attr("transform", event.transform));
-    svg.call(zoom);
+      // Set up zoom and pan
+      const zoom = d3.zoom()
+        .scaleExtent([1, 8])
+        .on("zoom", (event) => svg.selectAll("g").attr("transform", event.transform));
+      svg.call(zoom);
     };
-    
+
     loadData();
   </script>
 </body>
+
 </html>
-
-
-

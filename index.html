@@ -1,64 +1,75 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <title>Interactive Choropleth Map</title>
-    <script src="https://d3js.org/d3.v7.min.js"></script>
-    <script src="https://d3js.org/topojson.v3.min.js"></script>
-    <style>
-      .state { fill: lightgrey; stroke: white; stroke-width: 1px; }
-      .highlight { fill: #ADD8E6; }  /* Highlight color */
-    </style>
+  <meta charset="UTF-8">
+  <title>Interactive Choropleth Map</title>
+  <script src="https://d3js.org/d3.v7.min.js"></script>
+  <script src="https://d3js.org/topojson.v3.min.js"></script>
+  <style>
+    .state {
+      fill: lightgrey;
+      stroke: white;
+      stroke-width: 1px;
+    }
+
+    .highlight {
+      fill: #ADD8E6;
+    }
+
+    /* Highlight color */
+  </style>
 </head>
+
 <body>
 
-<svg id="map" width="800" height="500"></svg>
+  <svg id="map" width="800" height="500"></svg>
 
-<script>
+  <script>
     const width = 800, height = 500;
 
     // Define color scale for density
     const colorScale = d3.scaleQuantize()
-        .domain([0, 100])  // Adjust based on density range
-        .range(d3.schemeBlues[9]);
+      .domain([0, 100])  // Adjust based on density range
+      .range(d3.schemeBlues[9]);
 
     const svg = d3.select("#map");
 
     // Set up zoom and pan
     const zoom = d3.zoom()
-        .scaleExtent([1, 8])
-        .on("zoom", (event) => svg.selectAll("g").attr("transform", event.transform));
+      .scaleExtent([1, 8])
+      .on("zoom", (event) => svg.selectAll("g").attr("transform", event.transform));
     svg.call(zoom);
 
     // Load and render map with error handling
     d3.json("datasets/us.json")
-        .then(us => {
-            console.log("File loaded successfully:", us);
+      .then(us => {
+        console.log("File loaded successfully:", us);
 
-            const states = topojson.feature(us, us.objects.states);
-            const projection = d3.geoAlbersUsa().fitSize([width, height], states);
-            const path = d3.geoPath().projection(projection);
+        const states = topojson.feature(us, us.objects.states);
+        const projection = d3.geoAlbersUsa().fitSize([width, height], states);
+        const path = d3.geoPath().projection(projection);
 
-            svg.append("g")
-                .selectAll("path")
-                .data(states.features)
-                .enter().append("path")
-                .attr("class", "state")
-                .attr("d", path)
-                .attr("fill", d => colorScale(d.properties.density || 0))
-                .on("mouseover", function() { d3.select(this).attr("class", "highlight"); })
-                .on("mouseout", function() { d3.select(this).attr("class", "state"); });
-        })
-        .catch(error => {
-            console.error("Error loading or processing the file:", error);
-        });
+        svg.append("g")
+          .selectAll("path")
+          .data(states.features)
+          .enter().append("path")
+          .attr("class", "state")
+          .attr("d", path)
+          .attr("fill", d => colorScale(d.properties.density || 0))
+          .on("mouseover", function () { d3.select(this).attr("class", "highlight"); })
+          .on("mouseout", function () { d3.select(this).attr("class", "state"); });
+      })
+      .catch(error => {
+        console.error("Error loading or processing the file:", error);
+      });
 
 
-        // Load the datasets and merge them
+    // Load the datasets and merge them
     Promise.all([
-      d3.csv("datasets/fast-food.csv"),
-      d3.csv("datasets/race.csv"),
-      d3.csv("datasets∏sex.csv")
+      d3.csv("datasets/fast_food.csv"),
+      d3.csv("datasets/obesity_race.csv"),
+      d3.csv("datasets/obesity_sex.csv")
     ]).then(([foodData, raceData, sexData]) => {
 
       foodData.forEach(d => {
@@ -71,11 +82,6 @@
         delete d.MostPopularFastFoodBestIconicChain;
         delete d.MostPopularFastFoodFavoriteBreakfast;
         delete d.MostPopularFastFoodTopRatedChain;
-      })
-
-      fipsData.forEach(d => {
-        d.id = d.id.trimStart();
-        delete d.stusps;
       })
 
       // Process each dataset into a map for easier lookup by state
@@ -112,9 +118,9 @@
       console.error("Error loading the datasets:", error);
     });
 
-        
-</script>
+
+  </script>
 
 </body>
-</html>
 
+</html>

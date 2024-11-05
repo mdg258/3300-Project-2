@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8">
   <title>Interactive Choropleth Map</title>
   <script src="https://d3js.org/d3.v7.min.js"></script>
   <script src="https://d3js.org/topojson.v3.min.js"></script>
+
   <style>
     .state {
       fill: lightgrey;
@@ -16,24 +16,89 @@
     .highlight {
       fill: #ADD8E6;
     }
-
-    /* Highlight color */
+    .tooltip {
+      pointer-events: none;
+      font-size: 12px;
+    }
   </style>
 </head>
-
 <body>
-
-  <svg id="map" width="800" height="500"></svg>
+  <svg id="map" width="900" height="600"></svg>
 
   <script>
-    const width = 800, height = 500;
-
+    const svg = d3.select("#map");
+    const width = svg.attr("width");
+    const height = svg.attr("height");
+    
     // Define color scale for density
     const colorScale = d3.scaleQuantize()
       .domain([0, 100])  // Adjust based on density range
       .range(d3.schemeBlues[9]);
 
-    const svg = d3.select("#map");
+    // Define state names lookup based on FIPS codes
+    const stateNames = {
+      "01": "Alabama", "02": "Alaska", "04": "Arizona", "05": "Arkansas", "06": "California",
+      "08": "Colorado", "09": "Connecticut", "10": "Delaware", "11": "District of Columbia",
+      "12": "Florida", "13": "Georgia", "15": "Hawaii", "16": "Idaho", "17": "Illinois",
+      "18": "Indiana", "19": "Iowa", "20": "Kansas", "21": "Kentucky", "22": "Louisiana",
+      "23": "Maine", "24": "Maryland", "25": "Massachusetts", "26": "Michigan", "27": "Minnesota",
+      "28": "Mississippi", "29": "Missouri", "30": "Montana", "31": "Nebraska", "32": "Nevada",
+      "33": "New Hampshire", "34": "New Jersey", "35": "New Mexico", "36": "New York",
+      "37": "North Carolina", "38": "North Dakota", "39": "Ohio", "40": "Oklahoma", "41": "Oregon",
+      "42": "Pennsylvania", "44": "Rhode Island", "45": "South Carolina", "46": "South Dakota",
+      "47": "Tennessee", "48": "Texas", "49": "Utah", "50": "Vermont", "51": "Virginia",
+      "53": "Washington", "54": "West Virginia", "55": "Wisconsin", "56": "Wyoming"
+    };
+
+    const loadData = async function() {
+      const us = await d3.json("datasets/us.json");  // Load the TopoJSON file
+      const states = topojson.feature(us, us.objects.states);  // Extract state features
+      const projection = d3.geoAlbersUsa().fitSize([width, height], states);
+      const path = d3.geoPath().projection(projection);
+
+      // Append the state paths first
+      svg.append("g")
+         .selectAll("path")
+         .data(states.features)
+         .join("path")
+         .attr("class", "state")
+         .attr("d", path)
+         .attr("fill", d => colorScale(d.properties.density || 0))
+         .on("mouseover", function(event, d) {
+          d3.select(this).attr("class", "highlight");
+          const stateID = d.id.toString().padStart(2, '0');
+          const stateName = stateNames[stateID] || "Unknown";  // Lookup state name
+          const [x, y] = path.centroid(d);  // Get centroid of the state for tooltip positioning
+          tooltip.style("visibility", "visible")
+                .attr("transform", `translate(${x},${y})`);  // Position tooltip at state center
+          tooltipText.text(stateName);
+          d3.select(this).attr("fill", "blue");
+        })
+         .on("mouseout", function() {
+           tooltip.style("visibility", "hidden");
+           d3.select(this).attr("class", "state");
+         });
+
+      // Append the tooltip last to bring it to the front
+      const tooltip = svg.append("g")
+                         .attr("class", "tooltip")
+                         .style("visibility", "hidden");
+
+      tooltip.append("rect")
+             .attr("width", 100)
+             .attr("height", 20)
+             .attr("fill", "black")
+             .attr("rx", 4)
+             .attr("ry", 4)
+             .attr("x", -50)
+             .attr("y", -20)
+             .attr("opacity", 0.7);
+
+      const tooltipText = tooltip.append("text")
+                                 .attr("x", 0)
+                                 .attr("y", -8)
+                                 .attr("text-anchor", "middle")
+                                 .attr("fill", "white");
 
     // Set up zoom and pan
     const zoom = d3.zoom()
@@ -41,31 +106,7 @@
       .on("zoom", (event) => svg.selectAll("g").attr("transform", event.transform));
     svg.call(zoom);
 
-    // Load and render map with error handling
-    d3.json("datasets/us.json")
-      .then(us => {
-        console.log("File loaded successfully:", us);
 
-        const states = topojson.feature(us, us.objects.states);
-        const projection = d3.geoAlbersUsa().fitSize([width, height], states);
-        const path = d3.geoPath().projection(projection);
-
-        svg.append("g")
-          .selectAll("path")
-          .data(states.features)
-          .enter().append("path")
-          .attr("class", "state")
-          .attr("d", path)
-          .attr("fill", d => colorScale(d.properties.density || 0))
-          .on("mouseover", function () { d3.select(this).attr("class", "highlight"); })
-          .on("mouseout", function () { d3.select(this).attr("class", "state"); });
-      })
-      .catch(error => {
-        console.error("Error loading or processing the file:", error);
-      });
-
-
-    // Load the datasets and merge them
     Promise.all([
       d3.csv("datasets/fast_food.csv"),
       d3.csv("datasets/obesity_race.csv"),
@@ -73,16 +114,18 @@
     ]).then(([foodData, raceData, sexData]) => {
 
       foodData.forEach(d => {
-        d, ranking = d.MostPopularFastFoodMostSearchedFor;
-        const [first, second, third] = d.MostPopularFastFoodMostSearchedFor.replace(/\\n/g, "\n").split("\n").map(item => item.trim()).map(item => item.replace(/^\d+\.\s*/, ''));
+        d.ranking = d.MostPopularFastFoodMostSearchedFor;
+        const [first, second, third] = d.MostPopularFastFoodMostSearchedFor.replace(/\\n/g, "\n")
+          .split("\n").map(item => item.trim())
+          .map(item => item.replace(/^\d+\.\s*/, ''));
         d.first = first;
         d.second = second;
         d.third = third;
-        delete d.MostPopularFastFoodMostSearchedFor
+        delete d.MostPopularFastFoodMostSearchedFor;
         delete d.MostPopularFastFoodBestIconicChain;
         delete d.MostPopularFastFoodFavoriteBreakfast;
         delete d.MostPopularFastFoodTopRatedChain;
-      })
+      });
 
       // Process each dataset into a map for easier lookup by state
       const foodMap = {};
@@ -112,15 +155,20 @@
         mergedData.push(mergedEntry);
       });
 
-      console.log(mergedData);
-
-    }).catch(error => {
-      console.error("Error loading the datasets:", error);
+      console.log(mergedData); // To verify the merged data structure
     });
 
 
+
+
+
+
+    };
+    
+    loadData();
   </script>
-
 </body>
-
 </html>
+
+
+

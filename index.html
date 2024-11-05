@@ -31,21 +31,132 @@
       pointer-events: none;
       font-size: 12px;
     }
+
+
+    /* Legend Styling */
+.legend-container {
+  width: 300px;
+  font-family: 'Roboto', sans-serif;
+  background: #2c2c2c;  /* Dark background for consistency with UI */
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+  overflow: hidden;
+  border: 1px solid #444444;
+  color: #f0f0f0;
+}
+
+.legend-header {
+  background: #383838;
+  padding: 15px 20px;
+  border-bottom: 1px solid #555555;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.legend-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: #ffffff;
+  margin: 0;
+}
+
+.hover-text {
+  font-size: 12px;
+  color: #bbbbbb;
+  font-style: italic;
+}
+
+.state-info {
+  padding: 20px;
+}
+
+.state-name {
+  font-size: 18px;
+  font-weight: bold;
+  color: #f0f0f0;
+  margin: 0 0 15px 0;
+}
+
+.ranking-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.ranking-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.ranking-item:last-child {
+  margin-bottom: 0;
+}
+
+.medal {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: bold;
+  font-size: 12px;
+  margin-right: 12px;
+}
+
+.gold { background: #ffd700; }
+.silver { background: #c0c0c0; }
+.bronze { background: #cd7f32; }
+
+.restaurant-name {
+  color: #f0f0f0;
+  font-size: 14px;
+}
+
   </style>
 </head>
 
 <body>
   <h1>America’s Fast Food Landscape: Popular Picks and Health Trends</h1>
   <div style="display: flex; align-items: flex-start;">
-    <!-- Map Container with Fixed Width -->
+    <!-- Map Container -->
     <div style="width: 900px;">
       <svg id="map" width="900" height="600"></svg>
     </div>
+<<<<<<< HEAD
+  
+    <!-- Legend Container -->
+    <div class="legend-container" style="margin-left: 20px;">
+      <div class="legend-header">
+        <h3 class="legend-title">State Fast Food Preferences</h3>
+      </div>
+      <div class="state-info">
+        <h4 class="state-name">Select a State</h4>
+        <ul class="ranking-list">
+          <li class="ranking-item">
+            <div class="medal gold">1</div>
+            <span class="restaurant-name"></span>
+          </li>
+          <li class="ranking-item">
+            <div class="medal silver">2</div>
+            <span class="restaurant-name"></span>
+          </li>
+          <li class="ranking-item">
+            <div class="medal bronze">3</div>
+            <span class="restaurant-name"></span>
+          </li>
+        </ul>
+      </div>
+=======
 
     <!-- Logo Container to the Right of the Map -->
     <div id="logo-container"
       style="width: 150px; margin-left: 20px; display: flex; align-items: center; justify-content: center;">
       <img id="fast-food-logo" src="" alt="Fast Food Logo" style="display: none; width: 100px; height: 100px;">
+>>>>>>> 61189e5d021878f265b56e4a98dea16b9f198955
     </div>
   </div>
 
@@ -149,7 +260,15 @@
 
           // Find the object in mergedData where the `state` property matches `stateName`
           const stateData = mergedData.find(entry => entry.state === stateName);
-          const topFastFood = stateData ? stateData.first : "Not Available";
+          const topFastFood = stateData ? [stateData.first, stateData.second, stateData.third] : ["N/A", "N/A", "N/A"];
+  
+
+
+          document.querySelector(".state-name").textContent = stateName;
+          document.querySelectorAll(".restaurant-name")[0].innerText = topFastFood[0];
+          document.querySelectorAll(".restaurant-name")[1].innerText = topFastFood[1];
+          document.querySelectorAll(".restaurant-name")[2].innerText = topFastFood[2];
+
 
           // Position tooltip at the state's centroid
           let [x, y] = path.centroid(d);
@@ -179,6 +298,9 @@
             .attr("transform", `translate(${x},${y})`);
 
           tooltipText.text(stateName);
+<<<<<<< HEAD
+          tooltipSubText.text(`Top Fast Food: ${topFastFood[0]}`);
+=======
           tooltipSubText.text(`Top Fast Food: ${topFastFood}`);
 
           // Update the logo image
@@ -186,6 +308,7 @@
           logoImg.src = `logos/${topFastFood.toLowerCase().replace(/'/g, '').replace(/ /g, '_')}_logo.png`;
           logoImg.style.display = "block";
 
+>>>>>>> 61189e5d021878f265b56e4a98dea16b9f198955
         })
         .on("mousemove", function (event, d) {
           // Calculate the position with dynamic adjustments
@@ -216,9 +339,18 @@
           tooltip.style("visibility", "hidden");
           d3.select(this).attr("class", "state");
 
+<<<<<<< HEAD
+          document.querySelector(".state-name").textContent = "Select a State";
+          document.querySelectorAll(".restaurant-name")[0].innerText = " ";
+          document.querySelectorAll(".restaurant-name")[1].innerText = " ";
+          document.querySelectorAll(".restaurant-name")[2].innerText = " ";
+
+         });
+=======
           // Hide the logo on mouse out
           document.getElementById("fast-food-logo").style.display = "none";
         });
+>>>>>>> 61189e5d021878f265b56e4a98dea16b9f198955
 
       // Append the tooltip last to bring it to the front
       const tooltip = svg.append("g")

@@ -23,7 +23,17 @@
   </style>
 </head>
 <body>
-  <svg id="map" width="900" height="600"></svg>
+  <div style="display: flex; align-items: flex-start;">
+    <!-- Map Container with Fixed Width -->
+    <div style="width: 900px;">
+      <svg id="map" width="900" height="600"></svg>
+    </div>
+  
+    <!-- Logo Container to the Right of the Map -->
+    <div id="logo-container" style="width: 150px; margin-left: 20px; display: flex; align-items: center; justify-content: center;">
+      <img id="fast-food-logo" src="" alt="Fast Food Logo" style="display: none; width: 100px; height: 100px;">
+    </div>
+  </div>
 
   <script>
     const svg = d3.select("#map");
@@ -156,6 +166,15 @@
 
           tooltipText.text(stateName);
           tooltipSubText.text(`Top Fast Food: ${topFastFood}`);
+
+          // Update the logo image
+          const logoImg = document.getElementById("fast-food-logo");
+          if (topFastFood === "McDonald's") {
+            logoImg.src = "logos/mcdonalds_logo.png";  // Set to McDonald's logo
+            logoImg.style.display = "block";       // Show the logo
+          } else {
+            logoImg.style.display = "none";        // Hide the logo if not McDonald's
+          }
         })
         .on("mousemove", function(event, d) {
           // Calculate the position with dynamic adjustments
@@ -185,6 +204,9 @@
          .on("mouseout", function() {
            tooltip.style("visibility", "hidden");
            d3.select(this).attr("class", "state");
+
+           // Hide the logo on mouse out
+           document.getElementById("fast-food-logo").style.display = "none";
          });
 
       // Append the tooltip last to bring it to the front
@@ -216,6 +238,13 @@
                                     .attr("text-anchor", "middle")
                                     .attr("fill", "white")
                                     .attr("font-size", "12px");
+
+      const tooltipImage = tooltip.append("image")  // Image element for the logo
+                                    .attr("x", -15)    // Position the image
+                                    .attr("y", 10)
+                                    .attr("width", 30)
+                                    .attr("height", 30)
+                                    .style("visibility", "hidden");
 
     // Set up zoom and pan
     const zoom = d3.zoom()

@@ -25,7 +25,7 @@
 
 3. **Collect Logos for Fast Food Chains**
    - [ ] Gather logos for the top-ranked fast food chains (e.g., McDonald’s, Starbucks, Dominos, etc.).
-   - [ ] Store the logos in a dedicated `images` folder within the repo.
+   - [ ] Store the logos in a dedicated `logos` folder within the repo.
    - [ ] Map each fast food chain name to its respective logo URL in the code.
    - [ ] Update the legend to display the correct logo next to each ranked fast food chain for each state.
 

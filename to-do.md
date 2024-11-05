@@ -36,11 +36,6 @@
 
 ---
 
-### Future Enhancements
+### Future Enhancements / Ideas
 
-- [ ] Consider adding a dropdown menu to filter the map based on specific demographics or fast food preferences.
 - [ ] Allow users to toggle between viewing fast food rankings and obesity statistics in the legend.
-
----
-
-This to-do list provides a structured approach to implementing each feature. As each task is completed, be sure to update this document to reflect the progress made.

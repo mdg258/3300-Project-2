@@ -56,58 +56,9 @@
       const projection = d3.geoAlbersUsa().fitSize([width, height], states);
       const path = d3.geoPath().projection(projection);
 
-      // Append the state paths first
-      svg.append("g")
-         .selectAll("path")
-         .data(states.features)
-         .join("path")
-         .attr("class", "state")
-         .attr("d", path)
-         .attr("fill", d => colorScale(d.properties.density || 0))
-         .on("mouseover", function(event, d) {
-          d3.select(this).attr("class", "highlight");
-          const stateID = d.id.toString().padStart(2, '0');
-          const stateName = stateNames[stateID] || "Unknown";  // Lookup state name
-          const [x, y] = path.centroid(d);  // Get centroid of the state for tooltip positioning
-          tooltip.style("visibility", "visible")
-                .attr("transform", `translate(${x},${y})`);  // Position tooltip at state center
-          tooltipText.text(stateName);
-          d3.select(this).attr("fill", "blue");
-        })
-         .on("mouseout", function() {
-           tooltip.style("visibility", "hidden");
-           d3.select(this).attr("class", "state");
-         });
+      let mergedData = [];
 
-      // Append the tooltip last to bring it to the front
-      const tooltip = svg.append("g")
-                         .attr("class", "tooltip")
-                         .style("visibility", "hidden");
-
-      tooltip.append("rect")
-             .attr("width", 100)
-             .attr("height", 20)
-             .attr("fill", "black")
-             .attr("rx", 4)
-             .attr("ry", 4)
-             .attr("x", -50)
-             .attr("y", -20)
-             .attr("opacity", 0.7);
-
-      const tooltipText = tooltip.append("text")
-                                 .attr("x", 0)
-                                 .attr("y", -8)
-                                 .attr("text-anchor", "middle")
-                                 .attr("fill", "white");
-
-    // Set up zoom and pan
-    const zoom = d3.zoom()
-      .scaleExtent([1, 8])
-      .on("zoom", (event) => svg.selectAll("g").attr("transform", event.transform));
-    svg.call(zoom);
-
-
-    Promise.all([
+      Promise.all([
       d3.csv("datasets/fast_food.csv"),
       d3.csv("datasets/obesity_race.csv"),
       d3.csv("datasets/obesity_sex.csv")
@@ -144,10 +95,9 @@
       });
 
       // Merge datasets based on the "state" key
-      const mergedData = [];
       Object.keys(foodMap).forEach(state => {
         const mergedEntry = {
-          state: state,
+          state: state.padStart(2, '0'),
           ...foodMap[state],
           ...raceMap[state],
           ...sexMap[state]
@@ -158,11 +108,95 @@
       console.log(mergedData); // To verify the merged data structure
     });
 
+      // Append the state paths first
+      svg.append("g")
+         .selectAll("path")
+         .data(states.features)
+         .join("path")
+         .attr("class", "state")
+         .attr("d", path)
+         .attr("fill", d => colorScale(d.properties.density || 0))
+         .on("mouseover", function(event, d) {
+          d3.select(this).attr("class", "highlight");
+          const stateID = d.id.toString().padStart(2, '0');  // Format ID with leading zero if needed
 
+          // Retrieve the state name using stateNames
+          const stateName = stateNames[stateID] || "Unknown";
 
+          // Find the object in mergedData where the `state` property matches `stateName`
+          const stateData = mergedData.find(entry => entry.state === stateName);
+          const topFastFood = stateData ? stateData.first : "Not Available";
 
+          // Position tooltip at the state's centroid
+          let [x, y] = path.centroid(d);
+          const transform = d3.zoomTransform(svg.node());
+          
+          // Adjust tooltip position to stay within the SVG boundaries
+          const tooltipWidth = 180;  // Match tooltip rect width
+          const tooltipHeight = 50;  // Match tooltip rect height
+          const svgWidth = +svg.attr("width");
+          const svgHeight = +svg.attr("height");
 
+          // Apply zoom transformation and adjust to prevent overflow
+          x = transform.applyX(x);
+          y = transform.applyY(y);
 
+          if (x + tooltipWidth / 2 > svgWidth) {
+            x -= tooltipWidth / 2;  // Shift left if tooltip overflows right
+          } else if (x - tooltipWidth / 2 < 0) {
+            x += tooltipWidth / 2;  // Shift right if tooltip overflows left
+          }
+
+          if (y + tooltipHeight > svgHeight) {
+            y -= tooltipHeight;  // Shift up if tooltip overflows bottom
+          }
+
+          tooltip.style("visibility", "visible")
+                .attr("transform", `translate(${x},${y})`);
+
+          tooltipText.text(stateName);
+          tooltipSubText.text(`Top Fast Food: ${topFastFood}`);
+        })
+         .on("mouseout", function() {
+           tooltip.style("visibility", "hidden");
+           d3.select(this).attr("class", "state");
+         });
+
+      // Append the tooltip last to bring it to the front
+      const tooltip = svg.append("g")
+                   .attr("class", "tooltip")
+                   .style("visibility", "hidden");
+
+      tooltip.append("rect")
+            .attr("width", 180)  // Increased width for better spacing
+            .attr("height", 50)  // Increased height to accommodate two lines of text
+            .attr("fill", "black")
+            .attr("rx", 4)
+            .attr("ry", 4)
+            .attr("x", -90)      // Centered the tooltip rectangle horizontally
+            .attr("y", -40)      // Adjusted vertical position
+            .attr("opacity", 0.8);
+
+      const tooltipText = tooltip.append("text")
+                                .attr("x", 0)
+                                .attr("y", -20)  // Position the state name higher
+                                .attr("text-anchor", "middle")
+                                .attr("fill", "white")
+                                .attr("font-size", "14px")  // Larger font size for the state name
+                                .attr("font-weight", "bold");  // Bold font for the state name
+
+      const tooltipSubText = tooltip.append("text")
+                                    .attr("x", 0)
+                                    .attr("y", 0)  // Position the fast food name lower for padding
+                                    .attr("text-anchor", "middle")
+                                    .attr("fill", "white")
+                                    .attr("font-size", "12px");
+
+    // Set up zoom and pan
+    const zoom = d3.zoom()
+      .scaleExtent([1, 8])
+      .on("zoom", (event) => svg.selectAll("g").attr("transform", event.transform));
+    svg.call(zoom);
     };
     
     loadData();

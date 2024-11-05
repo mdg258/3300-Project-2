@@ -52,6 +52,67 @@
         .catch(error => {
             console.error("Error loading or processing the file:", error);
         });
+
+
+        // Load the datasets and merge them
+    Promise.all([
+      d3.csv("datasets/fast-food.csv"),
+      d3.csv("datasets/race.csv"),
+      d3.csv("datasets∏sex.csv")
+    ]).then(([foodData, raceData, sexData]) => {
+
+      foodData.forEach(d => {
+        d, ranking = d.MostPopularFastFoodMostSearchedFor;
+        const [first, second, third] = d.MostPopularFastFoodMostSearchedFor.replace(/\\n/g, "\n").split("\n").map(item => item.trim()).map(item => item.replace(/^\d+\.\s*/, ''));
+        d.first = first;
+        d.second = second;
+        d.third = third;
+        delete d.MostPopularFastFoodMostSearchedFor
+        delete d.MostPopularFastFoodBestIconicChain;
+        delete d.MostPopularFastFoodFavoriteBreakfast;
+        delete d.MostPopularFastFoodTopRatedChain;
+      })
+
+      fipsData.forEach(d => {
+        d.id = d.id.trimStart();
+        delete d.stusps;
+      })
+
+      // Process each dataset into a map for easier lookup by state
+      const foodMap = {};
+      foodData.forEach(d => {
+        foodMap[d.state] = d;
+      });
+
+      const raceMap = {};
+      raceData.forEach(d => {
+        raceMap[d.state] = d;
+      });
+
+      const sexMap = {};
+      sexData.forEach(d => {
+        sexMap[d.state] = d;
+      });
+
+      // Merge datasets based on the "state" key
+      const mergedData = [];
+      Object.keys(foodMap).forEach(state => {
+        const mergedEntry = {
+          state: state,
+          ...foodMap[state],
+          ...raceMap[state],
+          ...sexMap[state]
+        };
+        mergedData.push(mergedEntry);
+      });
+
+      console.log(mergedData);
+
+    }).catch(error => {
+      console.error("Error loading the datasets:", error);
+    });
+
+        
 </script>
 
 </body>

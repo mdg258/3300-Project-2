@@ -157,6 +157,31 @@
           tooltipText.text(stateName);
           tooltipSubText.text(`Top Fast Food: ${topFastFood}`);
         })
+        .on("mousemove", function(event, d) {
+          // Calculate the position with dynamic adjustments
+          let [x, y] = path.centroid(d);
+          const transform = d3.zoomTransform(svg.node());
+
+          const tooltipWidth = 180;  // Match tooltip rect width
+          const tooltipHeight = 50;  // Match tooltip rect height
+          const svgWidth = +svg.attr("width");
+          const svgHeight = +svg.attr("height");
+
+          x = transform.applyX(x);
+          y = transform.applyY(y);
+
+          if (x + tooltipWidth / 2 > svgWidth) {
+            x -= tooltipWidth / 2;  // Shift left if tooltip overflows right
+          } else if (x - tooltipWidth / 2 < 0) {
+            x += tooltipWidth / 2;  // Shift right if tooltip overflows left
+          }
+
+          if (y + tooltipHeight > svgHeight) {
+            y -= tooltipHeight;  // Shift up if tooltip overflows bottom
+          }
+
+          tooltip.attr("transform", `translate(${x},${y})`);
+        })
          .on("mouseout", function() {
            tooltip.style("visibility", "hidden");
            d3.select(this).attr("class", "state");

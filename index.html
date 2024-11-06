@@ -12,7 +12,7 @@
       font-family: 'Roboto', sans-serif;
     }
 
-    h1 {
+    h1, h3 {
       text-align: center;
     }
 
@@ -122,14 +122,19 @@
       color: #f0f0f0;
       font-size: 14px;
     }
+
+    .map-div {
+      margin-right: 100px;
+    }
   </style>
 </head>
 
 <body>
-  <h1>America’s Fast Food Landscape: Popular Picks and Health Trends</h1>
+  <h1>America’s Fast Food Landscape</h1>
+  <h3>Popular Picks and Health Trends</h3>
   <div style="display: flex; align-items: flex-start;">
     <!-- Map Container -->
-    <div style="width: 900px;">
+    <div class="map-div" style="width: 900px;">
       <svg id="map" width="900" height="600"></svg>
     </div>
 

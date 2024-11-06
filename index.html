@@ -196,12 +196,6 @@
 
             tooltipText.text(stateName);
             tooltipSubText.text(`Top Fast Food: ${topFastFood[0]}`);
-
-            // Update the logo image
-            const logoImg = document.getElementById("fast-food-logo");
-            logoImg.src = `logos/${topFastFood.toLowerCase().replace(/'/g, '').replace(/ /g, '_')}_logo.png`;
-            logoImg.style.display = "block";
-
           })
           .on("mousemove", function (event, d) {
             // Calculate the position with dynamic adjustments

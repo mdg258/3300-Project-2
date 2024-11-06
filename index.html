@@ -133,6 +133,7 @@
     <div style="width: 900px;">
       <svg id="map" width="900" height="600"></svg>
     </div>
+
     <!-- Legend Container -->
     <div class="legend-container" style="margin-left: 20px;">
       <div class="legend-header">
@@ -155,11 +156,11 @@
           </li>
         </ul>
       </div>
+
       <!-- Logo Container to the Right of the Map -->
       <div id="logo-container"
         style="width: 150px; margin-left: 20px; display: flex; align-items: center; justify-content: center;">
         <img id="fast-food-logo" src="" alt="Fast Food Logo" style="display: none; width: 100px; height: 100px;">
-
       </div>
     </div>
 
@@ -264,10 +265,14 @@
             // Find the object in mergedData where the `state` property matches `stateName`
             const stateData = mergedData.find(entry => entry.state === stateName);
             const topFastFood = stateData ? [stateData.first, stateData.second, stateData.third] : ["N/A", "N/A", "N/A"];
+
+
+
             document.querySelector(".state-name").textContent = stateName;
             document.querySelectorAll(".restaurant-name")[0].innerText = topFastFood[0];
             document.querySelectorAll(".restaurant-name")[1].innerText = topFastFood[1];
             document.querySelectorAll(".restaurant-name")[2].innerText = topFastFood[2];
+
 
             // Position tooltip at the state's centroid
             let [x, y] = path.centroid(d);
@@ -338,11 +343,8 @@
             document.querySelectorAll(".restaurant-name")[0].innerText = " ";
             document.querySelectorAll(".restaurant-name")[1].innerText = " ";
             document.querySelectorAll(".restaurant-name")[2].innerText = " ";
-            // Hide the logo on mouse out
-            document.getElementById("fast-food-logo").style.display = "none";
 
           });
-
 
         // Append the tooltip last to bring it to the front
         const tooltip = svg.append("g")

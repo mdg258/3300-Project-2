@@ -170,9 +170,9 @@
       const height = svg.attr("height");
 
       // Define color scale for density
-      const colorScale = d3.scaleQuantize()
-        .domain([0, 100])  // Adjust based on density range
-        .range(d3.schemeBlues[9]);
+      const colorScale = d3.scaleSequential()
+      .domain([0.235, 0.412])
+      .interpolator(d3.interpolateBlues);
 
       // Define state names lookup based on FIPS codes
       const stateNames = {
@@ -254,7 +254,24 @@
           .join("path")
           .attr("class", "state")
           .attr("d", path)
-          .attr("fill", d => colorScale(d.properties.density || 0))
+          .attr("fill", d => {
+        const stateID = d.id.toString().padStart(2, '0');
+        const stateData = mergedData.find(entry => entry.state === stateID);
+            console.log(stateID)
+
+  // Ensure the obesity rate is parsed as a number and filter out 'N/A' values
+        const obesityRate = stateData && stateData.All !== 'N/A' && stateData.All !=='NSD'
+        ? parseFloat(stateData.All) 
+        : null;
+            // console.log(obesityRate)
+  // If obesity rate is null or invalid, return a default color (light grey)
+        return obesityRate !== null ? colorScale(obesityRate) : "#d3d3d3";  // light grey for missing data
+})
+
+
+
+
+
           .on("mouseover", function (event, d) {
             d3.select(this).attr("class", "highlight");
             const stateID = d.id.toString().padStart(2, '0');  // Format ID with leading zero if needed

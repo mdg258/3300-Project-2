@@ -17,7 +17,6 @@
     }
 
     .state {
-      fill: lightgrey;
       stroke: white;
       stroke-width: 1px;
     }
@@ -171,8 +170,8 @@
 
       // Define color scale for density
       const colorScale = d3.scaleSequential()
-      .domain([0.235, 0.412])
-      .interpolator(d3.interpolateBlues);
+        .domain([0.235, 0.412])
+        .interpolator(d3.interpolateBlues);
 
       // Define state names lookup based on FIPS codes
       const stateNames = {
@@ -197,7 +196,7 @@
 
         let mergedData = [];
 
-        Promise.all([
+        await Promise.all([
           d3.csv("datasets/fast_food.csv"),
           d3.csv("datasets/obesity_race.csv"),
           d3.csv("datasets/obesity_sex.csv")
@@ -216,6 +215,10 @@
             delete d.MostPopularFastFoodFavoriteBreakfast;
             delete d.MostPopularFastFoodTopRatedChain;
           });
+
+          raceData.forEach(d => {
+            delete d.All
+          })
 
           // Process each dataset into a map for easier lookup by state
           const foodMap = {};
@@ -255,23 +258,18 @@
           .attr("class", "state")
           .attr("d", path)
           .attr("fill", d => {
-        const stateID = d.id.toString().padStart(2, '0');
-        const stateData = mergedData.find(entry => entry.state === stateID);
-            console.log(stateID)
+            const stateID = d.id.toString().padStart(2, '0');  // Format ID with leading zero if needed
 
-  // Ensure the obesity rate is parsed as a number and filter out 'N/A' values
-        const obesityRate = stateData && stateData.All !== 'N/A' && stateData.All !=='NSD'
-        ? parseFloat(stateData.All) 
-        : null;
-            // console.log(obesityRate)
-  // If obesity rate is null or invalid, return a default color (light grey)
-        return obesityRate !== null ? colorScale(obesityRate) : "#d3d3d3";  // light grey for missing data
-})
+            // Retrieve the state name using stateNames
+            const stateName = stateNames[stateID] || "Unknown";
+            const stateData = mergedData.find(entry => entry.state === stateName);
+            console.log(stateData);
 
-
-
-
-
+            const obesityRate = stateData && stateData.All !== 'N/A' && stateData.All !== 'NSD'
+              ? parseFloat(stateData.All)
+              : null;
+            return obesityRate !== null ? colorScale(obesityRate) : "#d3d3d3";
+          })
           .on("mouseover", function (event, d) {
             d3.select(this).attr("class", "highlight");
             const stateID = d.id.toString().padStart(2, '0');  // Format ID with leading zero if needed
@@ -282,7 +280,6 @@
             // Find the object in mergedData where the `state` property matches `stateName`
             const stateData = mergedData.find(entry => entry.state === stateName);
             const topFastFood = stateData ? [stateData.first, stateData.second, stateData.third] : ["N/A", "N/A", "N/A"];
-
 
 
             document.querySelector(".state-name").textContent = stateName;

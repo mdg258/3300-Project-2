@@ -128,6 +128,11 @@ body {
   .source-link {
     color: #333;
     text-decoration: underline;
+    font-style: italic;
+  }
+
+  .source-link:hover {
+    color: #d04040;
   }
 
   .click-info {

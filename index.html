@@ -43,11 +43,14 @@
             <span class="restaurant-name"></span>
           </li>
         </ul>
+
+        <h5 style=" font-style: italic;
+        color: #6c757d;         
+        ">click state for detailed obesity statistics</h5>
+
       </div>
     </div>
-
-    <!-- Pie Chart for Obesity Rates By Gender -->
-
+    <!-- Chart Container -->
     <div id="chart-container" style="display: none;">
       <style>
         #backToFastFoodBtn:hover {
@@ -58,13 +61,12 @@
       <span id="backToFastFoodBtn" class="material-symbols-outlined" style="color: #4d7fab; cursor: pointer;">
         arrow_back
       </span>
-      <h2 class="chart-state-name" style=""></h2>
+
+      <h2 class="chart-state-name"></h2>
       <div id="obesity-chart-container">
         <h4>Obesity Rates by Gender</h4>
         <svg id="obesity-chart" width="400" height="200"></svg>
       </div>
-
-      <!-- Container for the second Pie Chart (Obesity Rates by Race) -->
       <div id="obesity-chart-container-race">
         <h4>Obesity Rates by Race</h4>
         <svg id="obesity-chart-race" width="400" height="250"></svg>
@@ -96,91 +98,95 @@
         "53": "Washington", "54": "West Virginia", "55": "Wisconsin", "56": "Wyoming"
       };
 
-      // Function to render the pie chart
-      const renderSexPieChart = (maleRate, femaleRate) => {
-        const pieChartSvg = d3.select("#obesity-chart");
-        const radius = 100;
+      // Function to render the sex pie chart
+      const renderSexBarChart = (maleRate, femaleRate) => {
+        const barChartSvg = d3.select("#obesity-chart");
+        const width = 300;
+        const height = 150;
+        const barHeight = 30;
 
         // Clear previous chart
-        pieChartSvg.selectAll("*").remove();
+        barChartSvg.selectAll("*").remove();
 
-        const g = pieChartSvg.append("g")
-          .attr("transform", `translate(${radius},${radius})`);
-
-        // Data for the pie chart (Obesity rates for Male and Female)
         const data = [
           { label: "Male", value: maleRate },
           { label: "Female", value: femaleRate }
         ];
 
+        // Define scales
+        const xScale = d3.scaleLinear()
+          .domain([0, d3.max(data, d => d.value)])
+          .range([0, width]);
+
+        const yScale = d3.scaleBand()
+          .domain(data.map(d => d.label))
+          .range([0, height])
+          .padding(0.4);
+
         const color = d3.scaleOrdinal()
           .domain(data.map(d => d.label))
           .range(["#1f77b4", "#FF69B4"]);
 
-        // Create pie chart arc generator
-        const arc = d3.arc()
-          .innerRadius(0)
-          .outerRadius(radius);
+        barChartSvg.append("g")
+          .attr("transform", `translate(0, ${height})`)
+          .call(d3.axisBottom(xScale).ticks(5).tickFormat(d => `${(d * 100).toFixed(0)}%`));
 
-        // Create pie chart pie generator
-        const pie = d3.pie()
-          .value(d => d.value)
-          .sort(null); // Disable sorting by value
+        barChartSvg.append("g")
+          .call(d3.axisLeft(yScale));
 
-        // Append pie chart slices
-        const slices = g.selectAll(".slice")
-          .data(pie(data))
-          .join("g")
-          .attr("class", "slice");
-
-        slices.append("path")
-          .attr("d", arc)
-          .attr("fill", d => color(d.data.label));
-
-        // Add labels to the slices
-        slices.append("text")
-          .attr("transform", d => `translate(${arc.centroid(d)})`)  // Position label at slice centroid
-          .attr("dy", "0.35em")
-          .attr("text-anchor", "middle")
-          .attr("fill", "white")
-          .text(d => `${d.data.value}%`);
-
-        const legend = pieChartSvg.append("g")
-          .attr("transform", `translate(${radius * 2.2}, 20)`); // Positioning the legend
-
-        legend.selectAll(".legend")
+        barChartSvg.selectAll(".bar")
           .data(data)
-          .join("g")
-          .attr("class", "legend")
-          .attr("transform", (d, i) => `translate(0, ${i * 20})`);
-
-        // Legend colored boxes
-        legend.selectAll(".legend")
-          .append("rect")
+          .join("rect")
+          .attr("class", "bar")
+          .attr("y", d => yScale(d.label))
           .attr("x", 0)
-          .attr("width", 18)
-          .attr("height", 18)
+          .attr("height", yScale.bandwidth())
+          .attr("width", d => xScale(d.value))
           .attr("fill", d => color(d.label));
 
-        // Legend labels
-        legend.selectAll(".legend")
-          .append("text")
-          .attr("x", 25)
-          .attr("dy", "1.2em")
+        barChartSvg.selectAll(".label")
+          .data(data)
+          .join("text")
+          .attr("class", "label")
+          .attr("x", d => xScale(d.value) + 5)
+          .attr("y", d => yScale(d.label) + yScale.bandwidth() / 2)
+          .attr("dy", "0.35em")
           .attr("text-anchor", "start")
+          .attr("fill", "black")
+          .text(d => `${(d.value * 100).toFixed(2)}%`);
+
+        // Append x-axis label for "% of Population"
+        barChartSvg.append("text")
+          .attr("class", "x-axis-label")
+          .attr("x", width / 2)
+          .attr("y", height + 40)
+          .attr("text-anchor", "middle")
+          .attr("fill", "black")
+          .text("% of Population");
+
+        // Add gender labels on each bar
+        barChartSvg.selectAll(".gender-label")
+          .data(data)
+          .join("text")
+          .attr("class", "gender-label")
+          .attr("x", 5)
+          .attr("y", d => yScale(d.label) + yScale.bandwidth() / 2)
+          .attr("dy", "0.35em")
+          .attr("text-anchor", "start")
+          .attr("fill", "white")
+          .style("font-size", "12px")
           .text(d => d.label);
       };
-      // Function to render the second pie chart (Obesity by Race)
-      const renderRacePieChart = (whiteRate, blackRate, hispanicRate, asianRate, americanIndianRate, otherRate) => {
-        const pieChartSvg = d3.select("#obesity-chart-race");
-        const radius = 100;
+
+      // Function for race pie chart
+      const renderRaceBarChart = (whiteRate, blackRate, hispanicRate, asianRate, americanIndianRate, otherRate) => {
+        const barChartSvg = d3.select("#obesity-chart-race");
+        const width = 300;
+        const height = 200;
+
         // Clear previous chart
-        pieChartSvg.selectAll("*").remove();
+        barChartSvg.selectAll("*").remove();
 
-        const g = pieChartSvg.append("g")
-          .attr("transform", `translate(${radius},${radius})`);
-
-        // Data for the pie chart (Obesity rates by Race)
         let data = [
           { label: "White", value: whiteRate },
           { label: "Black", value: blackRate },
@@ -190,68 +196,74 @@
           { label: "Other", value: otherRate }
         ];
 
+        // Filter out any zero values
         data = data.filter(d => d.value != "0");
+
+        // Define scales
+        const xScale = d3.scaleLinear()
+          .domain([0, d3.max(data, d => d.value)])
+          .range([0, width]);
+
+        const yScale = d3.scaleBand()
+          .domain(data.map(d => d.label))
+          .range([0, height])
+          .padding(0.4);
 
         const color = d3.scaleOrdinal()
           .domain(data.map(d => d.label))
           .range(["#9467bd", "#1e3a8a", "#f59e0b", "#2ca02c", "#e53e3e", "black"]);
 
 
-        // Create pie chart arc generator
-        const arc = d3.arc()
-          .innerRadius(0)
-          .outerRadius(radius);
+        barChartSvg.append("g")
+          .attr("transform", `translate(0, ${height})`)
+          .call(d3.axisBottom(xScale).ticks(5).tickFormat(d => `${(d * 100).toFixed(0)}%`));
 
-        // Create pie chart pie generator
-        const pie = d3.pie()
-          .value(d => d.value)
-          .sort(null); // Disable sorting by value
+        barChartSvg.append("g")
+          .call(d3.axisLeft(yScale));
 
-        // Append pie chart slices
-        const slices = g.selectAll(".slice")
-          .data(pie(data))
-          .join("g")
-          .attr("class", "slice");
-
-        slices.append("path")
-          .attr("d", arc)
-          .attr("fill", d => color(d.data.label));
-
-        // Add labels to the slices
-        slices.append("text")
-          .attr("transform", d => `translate(${arc.centroid(d)})`)
-          .attr("dy", "0.3em")
-          .attr("text-anchor", "middle")
-          .attr("fill", "white")
-          .style("font-size", "12px")
-          .text(d => `${d.data.value}%`);
-
-        // Add the legend, move it further to the right
-        const legend = pieChartSvg.append("g")
-          .attr("transform", `translate(${radius * 2.5}, 20)`); // Position the legend further right
-
-        legend.selectAll(".legend")
+        barChartSvg.selectAll(".bar")
           .data(data)
-          .join("g")
-          .attr("class", "legend")
-          .attr("transform", (d, i) => `translate(0, ${i * 20})`);
-
-        // Legend colored boxes
-        legend.selectAll(".legend")
-          .append("rect")
+          .join("rect")
+          .attr("class", "bar")
+          .attr("y", d => yScale(d.label))
           .attr("x", 0)
-          .attr("width", 18)
-          .attr("height", 18)
+          .attr("height", yScale.bandwidth())
+          .attr("width", d => xScale(d.value))
           .attr("fill", d => color(d.label));
 
-        // Legend labels
-        legend.selectAll(".legend")
-          .append("text")
-          .attr("x", 25)
-          .attr("dy", "1.2em")
+        barChartSvg.selectAll(".label")
+          .data(data)
+          .join("text")
+          .attr("class", "label")
+          .attr("x", d => xScale(d.value) + 5)
+          .attr("y", d => yScale(d.label) + yScale.bandwidth() / 2)
+          .attr("dy", "0.35em")
           .attr("text-anchor", "start")
-          .text(d => d.label);
+          .attr("fill", "black")
+          .text(d => `${(d.value * 100).toFixed(2)}%`);
 
+
+        // Append x-axis label for "% of Population"
+        barChartSvg.append("text")
+          .attr("class", "x-axis-label")
+          .attr("x", width / 2)
+          .attr("y", height + 40)
+          .attr("text-anchor", "middle")
+          .attr("fill", "black")
+          .text("% of Population");
+
+        // Add racial group labels on each bar
+        barChartSvg.selectAll(".race-label")
+          .data(data)
+          .join("text")
+          .attr("class", "race-label")
+          .attr("x", 5)
+          .attr("y", d => yScale(d.label) + yScale.bandwidth() / 2)
+          .attr("dy", "0.35em")
+          .attr("text-anchor", "start")
+          .attr("fill", "white")
+          .style("font-size", "12px")
+          .text(d => d.label);
       };
 
       const loadData = async function () {
@@ -347,12 +359,10 @@
             const stateData = mergedData.find(entry => entry.state === stateName);
             const topFastFood = stateData ? [stateData.first, stateData.second, stateData.third] : ["N/A", "N/A", "N/A"];
 
-
             document.querySelector(".state-name").textContent = stateName;
             document.querySelectorAll(".restaurant-name")[0].innerText = topFastFood[0];
             document.querySelectorAll(".restaurant-name")[1].innerText = topFastFood[1];
             document.querySelectorAll(".restaurant-name")[2].innerText = topFastFood[2];
-
 
             // Position tooltip at the state's centroid
             let [x, y] = path.centroid(d);
@@ -444,8 +454,8 @@
 
               document.querySelector(".chart-state-name").textContent = stateName;
               // Call the pie chart functions for both charts
-              renderSexPieChart(maleRate, femaleRate);
-              renderRacePieChart(whiteRate, blackRate, hispanicRate, asianRate, americanIndianRate, otherRate);
+              renderSexBarChart(maleRate, femaleRate);
+              renderRaceBarChart(whiteRate, blackRate, hispanicRate, asianRate, americanIndianRate, otherRate);
 
               // Hide the Fast Food Preferences legend and show both pie charts
               document.querySelector(".legend-container").style.display = "none";  // Hide legend
@@ -453,16 +463,10 @@
             }
           }
           );
-        console.log("here");
         document.getElementById("backToFastFoodBtn").addEventListener("click", function () {
           document.querySelector(".legend-container").style.display = "block";  // Show legend
           document.querySelector("#chart-container").style.display = "none";  // Hide first pie chart (Gender)
         });
-
-
-
-
-
 
         // Append the tooltip last to bring it to the front
         const tooltip = svg.append("g")

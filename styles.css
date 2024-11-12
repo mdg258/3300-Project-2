@@ -116,3 +116,22 @@ body {
   .map-div {
     margin-right: 100px;
   }
+
+  .data-source {
+    font-size: 12px;
+    color: #333;
+    font-weight: bold;
+    text-align: center;
+    margin-top: 5px;
+  }
+  
+  .source-link {
+    color: #333;
+    text-decoration: underline;
+  }
+
+  .click-info {
+    font-style: italic;
+    color: #ced0d3;
+    text-align: center;
+  }

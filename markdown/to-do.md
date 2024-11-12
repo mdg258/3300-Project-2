@@ -7,6 +7,7 @@
    - [X] Keep the current tooltip functionality for displaying the state name and top-ranked fast food chain on hover.
    - [X] Display the rankings in the following format within the tooltip:
      ```
+
      STATE NAME
      Top Fast Food: [Top Ranked Fast Food Chain]
      ```
@@ -36,10 +37,10 @@
 
 ---
 
-
 ### Future Enhancements / Ideas
 
 - [X] Allow users to toggle between viewing fast food rankings and obesity statistics in the legend.
-- [ ] UI Changes: make the website look sleek and update color schemes.
+- [ ] UI Changes: make the website look sleek, update color schemes, and alignment issues.
 - [ ] Fill in Data Gaps or explicitly state shortcomings
-- [ ] Created legend for obesity gradient
+- [X] Created legend for obesity gradient
+- [ ] Find source for dataset

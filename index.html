@@ -19,7 +19,7 @@
     <!-- Map Container -->
     <div class="map-div" style="width: 900px; display: flex; flex-direction: column; align-items: center;">
       <svg id="map" width="900" height="600"></svg>
-      
+
       <!-- Centered Obesity Scale Legend -->
       <div style="display: flex; justify-content: center; margin-top: 10px;">
         <svg id="obesity-legend" width="250" height="60">
@@ -36,15 +36,11 @@
           <text>test text</text>
         </svg>
       </div>
-    
+
       <p class="data-source">
         Source: <a href="https://example.com" target="_blank" class="source-link">Example Data Source</a>
       </p>
     </div>
-    
-    
-    
-    
 
     <!-- Legend Container -->
     <div class="legend-container" style="margin-left: 20px;">
@@ -71,18 +67,11 @@
       </div>
       <h5 class="click-info">click state for detailed obesity statistics</h5>
     </div>
-    <!-- Chart Container -->
+    <!-- Bar Chart Container -->
     <div id="chart-container" style="display: none;">
-      <style>
-        #backToFastFoodBtn:hover {
-          background-color: #d0ebff;
-        }
-      </style>
-
-      <span id="backToFastFoodBtn" class="material-symbols-outlined" style="color: #4d7fab; cursor: pointer;">
+      <span id="backToFastFoodBtn" class="material-symbols-outlined">
         arrow_back
       </span>
-
       <h2 class="chart-state-name"></h2>
       <div id="obesity-chart-container">
         <h4>Obesity Rates by Gender</h4>

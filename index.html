@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <title>Interactive Choropleth Map</title>
@@ -7,7 +8,10 @@
   <script src="https://d3js.org/topojson.v3.min.js"></script>
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=arrow_back" />
 </head>
+
 <body>
   <h1>America’s Fast Food Landscape</h1>
   <h3>Popular Picks and Health Trends</h3>
@@ -42,6 +46,31 @@
       </div>
     </div>
 
+    <!-- Pie Chart for Obesity Rates By Gender -->
+
+    <div id="chart-container" style="display: none;">
+      <style>
+        #backToFastFoodBtn:hover {
+          background-color: #d0ebff;
+        }
+      </style>
+
+      <span id="backToFastFoodBtn" class="material-symbols-outlined" style="color: #4d7fab; cursor: pointer;">
+        arrow_back
+      </span>
+      <h2 class="chart-state-name" style=""></h2>
+      <div id="obesity-chart-container">
+        <h4>Obesity Rates by Gender</h4>
+        <svg id="obesity-chart" width="400" height="200"></svg>
+      </div>
+
+      <!-- Container for the second Pie Chart (Obesity Rates by Race) -->
+      <div id="obesity-chart-container-race">
+        <h4>Obesity Rates by Race</h4>
+        <svg id="obesity-chart-race" width="400" height="250"></svg>
+      </div>
+    </div>
+
     <script>
       const svg = d3.select("#map");
       const width = svg.attr("width");
@@ -65,6 +94,164 @@
         "42": "Pennsylvania", "44": "Rhode Island", "45": "South Carolina", "46": "South Dakota",
         "47": "Tennessee", "48": "Texas", "49": "Utah", "50": "Vermont", "51": "Virginia",
         "53": "Washington", "54": "West Virginia", "55": "Wisconsin", "56": "Wyoming"
+      };
+
+      // Function to render the pie chart
+      const renderSexPieChart = (maleRate, femaleRate) => {
+        const pieChartSvg = d3.select("#obesity-chart");
+        const radius = 100;
+
+        // Clear previous chart
+        pieChartSvg.selectAll("*").remove();
+
+        const g = pieChartSvg.append("g")
+          .attr("transform", `translate(${radius},${radius})`);
+
+        // Data for the pie chart (Obesity rates for Male and Female)
+        const data = [
+          { label: "Male", value: maleRate },
+          { label: "Female", value: femaleRate }
+        ];
+
+        const color = d3.scaleOrdinal()
+          .domain(data.map(d => d.label))
+          .range(["#1f77b4", "#FF69B4"]);
+
+        // Create pie chart arc generator
+        const arc = d3.arc()
+          .innerRadius(0)
+          .outerRadius(radius);
+
+        // Create pie chart pie generator
+        const pie = d3.pie()
+          .value(d => d.value)
+          .sort(null); // Disable sorting by value
+
+        // Append pie chart slices
+        const slices = g.selectAll(".slice")
+          .data(pie(data))
+          .join("g")
+          .attr("class", "slice");
+
+        slices.append("path")
+          .attr("d", arc)
+          .attr("fill", d => color(d.data.label));
+
+        // Add labels to the slices
+        slices.append("text")
+          .attr("transform", d => `translate(${arc.centroid(d)})`)  // Position label at slice centroid
+          .attr("dy", "0.35em")
+          .attr("text-anchor", "middle")
+          .attr("fill", "white")
+          .text(d => `${d.data.value}%`);
+
+        const legend = pieChartSvg.append("g")
+          .attr("transform", `translate(${radius * 2.2}, 20)`); // Positioning the legend
+
+        legend.selectAll(".legend")
+          .data(data)
+          .join("g")
+          .attr("class", "legend")
+          .attr("transform", (d, i) => `translate(0, ${i * 20})`);
+
+        // Legend colored boxes
+        legend.selectAll(".legend")
+          .append("rect")
+          .attr("x", 0)
+          .attr("width", 18)
+          .attr("height", 18)
+          .attr("fill", d => color(d.label));
+
+        // Legend labels
+        legend.selectAll(".legend")
+          .append("text")
+          .attr("x", 25)
+          .attr("dy", "1.2em")
+          .attr("text-anchor", "start")
+          .text(d => d.label);
+      };
+      // Function to render the second pie chart (Obesity by Race)
+      const renderRacePieChart = (whiteRate, blackRate, hispanicRate, asianRate, americanIndianRate, otherRate) => {
+        const pieChartSvg = d3.select("#obesity-chart-race");
+        const radius = 100;
+        // Clear previous chart
+        pieChartSvg.selectAll("*").remove();
+
+        const g = pieChartSvg.append("g")
+          .attr("transform", `translate(${radius},${radius})`);
+
+        // Data for the pie chart (Obesity rates by Race)
+        let data = [
+          { label: "White", value: whiteRate },
+          { label: "Black", value: blackRate },
+          { label: "Hispanic", value: hispanicRate },
+          { label: "Asian", value: asianRate },
+          { label: "American Indian", value: americanIndianRate },
+          { label: "Other", value: otherRate }
+        ];
+
+        data = data.filter(d => d.value != "0");
+
+        const color = d3.scaleOrdinal()
+          .domain(data.map(d => d.label))
+          .range(["#9467bd", "#1e3a8a", "#f59e0b", "#2ca02c", "#e53e3e", "black"]);
+
+
+        // Create pie chart arc generator
+        const arc = d3.arc()
+          .innerRadius(0)
+          .outerRadius(radius);
+
+        // Create pie chart pie generator
+        const pie = d3.pie()
+          .value(d => d.value)
+          .sort(null); // Disable sorting by value
+
+        // Append pie chart slices
+        const slices = g.selectAll(".slice")
+          .data(pie(data))
+          .join("g")
+          .attr("class", "slice");
+
+        slices.append("path")
+          .attr("d", arc)
+          .attr("fill", d => color(d.data.label));
+
+        // Add labels to the slices
+        slices.append("text")
+          .attr("transform", d => `translate(${arc.centroid(d)})`)
+          .attr("dy", "0.3em")
+          .attr("text-anchor", "middle")
+          .attr("fill", "white")
+          .style("font-size", "12px")
+          .text(d => `${d.data.value}%`);
+
+        // Add the legend, move it further to the right
+        const legend = pieChartSvg.append("g")
+          .attr("transform", `translate(${radius * 2.5}, 20)`); // Position the legend further right
+
+        legend.selectAll(".legend")
+          .data(data)
+          .join("g")
+          .attr("class", "legend")
+          .attr("transform", (d, i) => `translate(0, ${i * 20})`);
+
+        // Legend colored boxes
+        legend.selectAll(".legend")
+          .append("rect")
+          .attr("x", 0)
+          .attr("width", 18)
+          .attr("height", 18)
+          .attr("fill", d => color(d.label));
+
+        // Legend labels
+        legend.selectAll(".legend")
+          .append("text")
+          .attr("x", 25)
+          .attr("dy", "1.2em")
+          .attr("text-anchor", "start")
+          .text(d => d.label);
+
       };
 
       const loadData = async function () {
@@ -231,7 +418,51 @@
             document.querySelectorAll(".restaurant-name")[1].innerText = " ";
             document.querySelectorAll(".restaurant-name")[2].innerText = " ";
 
-          });
+          }).on("click", function (event, d) {
+            const stateID = d.id.toString().padStart(2, '0');
+            const stateName = stateNames[stateID] || "Unknown";
+            const stateData = mergedData.find(entry => entry.state === stateName);
+
+            if (stateData) {
+              // Update the legend with the clicked state's data
+              document.querySelector(".state-name").textContent = stateName;
+              document.querySelectorAll(".restaurant-name")[0].innerText = stateData.first || "N/A";
+              document.querySelectorAll(".restaurant-name")[1].innerText = stateData.second || "N/A";
+              document.querySelectorAll(".restaurant-name")[2].innerText = stateData.third || "N/A";
+
+              // Display the obesity rate by gender as a pie chart
+              const maleRate = stateData.Male !== 'N/A' && stateData.Male !== 'NSD' ? parseFloat(stateData.Male) : 0;
+              const femaleRate = stateData.Female !== 'N/A' && stateData.Female !== 'NSD' ? parseFloat(stateData.Female) : 0;
+
+              // Display the obesity rate by race as a pie chart
+              const whiteRate = stateData.White !== 'N/A' && stateData.White !== 'NSD' ? parseFloat(stateData.White) : 0;
+              const blackRate = stateData.Black !== 'N/A' && stateData.Black !== 'NSD' ? parseFloat(stateData.Black) : 0;
+              const hispanicRate = stateData.Hispanic !== 'N/A' && stateData.Hispanic !== 'NSD' ? parseFloat(stateData.Hispanic) : 0;
+              const asianRate = stateData["Asian/Native Hawaiian or Pacific Islander"] !== 'N/A' && stateData["Asian/Native Hawaiian or Pacific Islander"] !== 'NSD' ? parseFloat(stateData["Asian/Native Hawaiian or Pacific Islander"]) : 0;
+              const americanIndianRate = stateData["American Indian or Alaska Native"] !== 'N/A' && stateData["American Indian or Alaska Native"] !== 'NSD' ? parseFloat(stateData["American Indian or Alaska Native"]) : 0;
+              const otherRate = stateData.Other !== 'N/A' && stateData.Other !== 'NSD' ? parseFloat(stateData.Other) : 0;
+
+              document.querySelector(".chart-state-name").textContent = stateName;
+              // Call the pie chart functions for both charts
+              renderSexPieChart(maleRate, femaleRate);
+              renderRacePieChart(whiteRate, blackRate, hispanicRate, asianRate, americanIndianRate, otherRate);
+
+              // Hide the Fast Food Preferences legend and show both pie charts
+              document.querySelector(".legend-container").style.display = "none";  // Hide legend
+              document.querySelector("#chart-container").style.display = "block";  // Show first pie chart (Gender)
+            }
+          }
+          );
+        console.log("here");
+        document.getElementById("backToFastFoodBtn").addEventListener("click", function () {
+          document.querySelector(".legend-container").style.display = "block";  // Show legend
+          document.querySelector("#chart-container").style.display = "none";  // Hide first pie chart (Gender)
+        });
+
+
+
+
+
 
         // Append the tooltip last to bring it to the front
         const tooltip = svg.append("g")

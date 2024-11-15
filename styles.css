@@ -152,3 +152,20 @@ h3 {
 #backToFastFoodBtn:hover {
   background-color: #d0ebff;
 }
+
+h2.chart-state-name {
+  font-size: 24px;
+  font-weight: bold;
+    text-decoration: underline;
+    text-decoration-color: #000000;
+  }
+
+h4 {
+  font-size: 18px;
+  color: #106998;
+  
+}
+
+.tooltip rect {
+  box-shadow: 0px 4px 8px rgba(0,0,0,0.2);
+}

@@ -38,34 +38,42 @@
       </div>
 
       <p class="data-source">
-        Source: <a href="https://www.kff.org/other/state-indicator/adult-obesity-bysex/?currentTimeframe=0&sortModel=%7B%22colId%22:%22Location%22,%22sort%22:%22asc%22%7D" target="_blank" class="source-link">KFF.org</a>
+        Source: <a
+          href="https://www.kff.org/other/state-indicator/adult-obesity-bysex/?currentTimeframe=0&sortModel=%7B%22colId%22:%22Location%22,%22sort%22:%22asc%22%7D"
+          target="_blank" class="source-link">KFF.org</a>
       </p>
     </div>
+    <div>
+      <!-- Legend Container -->
+      <div class="legend-container" style="margin-left: 20px;">
+        <div class="legend-header">
+          <h3 class="legend-title">State Fast Food Preferences</h3>
+        </div>
+        <div class="state-info">
+          <h4 class="state-name">Select a State</h4>
+          <ul class="ranking-list">
+            <li class="ranking-item">
+              <div class="medal gold">1</div>
+              <span class="restaurant-name"></span>
+            </li>
+            <li class="ranking-item">
+              <div class="medal silver">2</div>
+              <span class="restaurant-name"></span>
+            </li>
+            <li class="ranking-item">
+              <div class="medal bronze">3</div>
+              <span class="restaurant-name"></span>
+            </li>
+          </ul>
 
-    <!-- Legend Container -->
-    <div class="legend-container" style="margin-left: 20px;">
-      <div class="legend-header">
-        <h3 class="legend-title">State Fast Food Preferences</h3>
+        </div>
+        <h5 class="click-info">click state for detailed obesity statistics</h5>
       </div>
-      <div class="state-info">
-        <h4 class="state-name">Select a State</h4>
-        <ul class="ranking-list">
-          <li class="ranking-item">
-            <div class="medal gold">1</div>
-            <span class="restaurant-name"></span>
-          </li>
-          <li class="ranking-item">
-            <div class="medal silver">2</div>
-            <span class="restaurant-name"></span>
-          </li>
-          <li class="ranking-item">
-            <div class="medal bronze">3</div>
-            <span class="restaurant-name"></span>
-          </li>
-        </ul>
 
-      </div>
-      <h5 class="click-info">click state for detailed obesity statistics</h5>
+      <p class="data-source" id="ff-source">
+        Source: <a href="https://worldpopulationreview.com/state-rankings/most-popular-fast-food-by-state"
+          target="_blank" class="source-link">WorldPopulationReview.com</a>
+      </p>
     </div>
     <!-- Bar Chart Container -->
     <div id="chart-container" style="display: none;">
@@ -78,8 +86,9 @@
         <svg id="obesity-chart" width="400" height="200"></svg>
       </div>
 
-      <p class="data-source">Source: 
-        <a href="https://www.kff.org/other/state-indicator/adult-obesity-bysex/?currentTimeframe=0&sortModel=%7B%22colId%22:%22Location%22,%22sort%22:%22asc%22%7D" target="_blank" class="source-link">Adults Who Are Obese by Sex from KFF.org</a>
+      <p class="data-source">Source:
+        <a href="https://www.kff.org/other/state-indicator/adult-obesity-bysex/?currentTimeframe=0&sortModel=%7B%22colId%22:%22Location%22,%22sort%22:%22asc%22%7D"
+          target="_blank" class="source-link">Adults Who Are Obese by Sex from KFF.org</a>
       </p>
 
       <div id="obesity-chart-container-race">
@@ -87,8 +96,9 @@
         <svg id="obesity-chart-race" width="400" height="250"></svg>
       </div>
 
-      <p class="data-source">Source: 
-        <a href="https://www.kff.org/other/state-indicator/adult-obesity-by-re/?currentTimeframe=0&sortModel=%7B%22colId%22:%22Location%22,%22sort%22:%22asc%22%7D" target="_blank" class="source-link">Adults Who Are Obese by Ethnicity/Race from KFF.org</a>
+      <p class="data-source">Source:
+        <a href="https://www.kff.org/other/state-indicator/adult-obesity-by-re/?currentTimeframe=0&sortModel=%7B%22colId%22:%22Location%22,%22sort%22:%22asc%22%7D"
+          target="_blank" class="source-link">Adults Who Are Obese by Ethnicity/Race from KFF.org</a>
       </p>
 
     </div>
@@ -479,12 +489,14 @@
 
               // Hide the Fast Food Preferences legend and show both pie charts
               document.querySelector(".legend-container").style.display = "none";  // Hide legend
+              document.querySelector("#ff-source").style.display = "none";
               document.querySelector("#chart-container").style.display = "block";  // Show first pie chart (Gender)
             }
           }
           );
         document.getElementById("backToFastFoodBtn").addEventListener("click", function () {
           document.querySelector(".legend-container").style.display = "block";  // Show legend
+          document.querySelector("#ff-source").style.display = "block";
           document.querySelector("#chart-container").style.display = "none";  // Hide first pie chart (Gender)
         });
 
